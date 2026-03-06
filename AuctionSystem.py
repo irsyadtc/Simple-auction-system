@@ -54,7 +54,7 @@ def main():
             if lot:
                 highest_bid = lot.get_highest_bid()
                 if highest_bid:
-                    print(f"Highest bid for lot {lot_number}: {highest_bid.get_value()} by {highest_bid.get_bidder().get_name()}")
+                    print(f"Highest bid for lot {lot_number}: {highest_bid.get_value()} by {highest_bid.get_bidder()}")
                 else:
                     print(f"No bids for lot {lot_number}.")
             else:

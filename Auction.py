@@ -39,6 +39,8 @@ class Auction:
         if selected_lot != None:
             bid = Bid(bidder, value)
             successful = selected_lot.bid_for(bid)
+            #highest_bid = selected_lot.get_highest_bid()
+
             if successful:
                 print("The bid for lot number", lot_number, "was successful.")
             else:
@@ -49,7 +51,10 @@ class Auction:
                     lot_number,
                     "already has a bid of:",
                     highest_bid.get_value(),
+                    "named: ",
+                    highest_bid.get_bidder()
                 )
+        #else syntax is in get_lot()
 
         return successful
 
@@ -104,11 +109,12 @@ class Lot:
 
         A successful bid must have a value higher than any existing bid, and the remaining auction time
         must be greater than zero."""
-        
+        #set no time
         current_time=time.time()
         remaining_time= self.timestamp + self.auction_duration * 24*3600 - current_time
         
-        if (self.highest_bid == None) or (bid.get_value() > self.highest_bid.get_value()) and (remaining_time>0):
+        # if (self.highest_bid == None) or (bid.get_value() > self.highest_bid.get_value()) and (remaining_time>0):
+        if (self.highest_bid == None) or (bid.get_value() > self.highest_bid.get_value()):
            # This bid is the best so far, and there is still time remaining for the auction.
             self.highest_bid = bid
             return True
@@ -123,9 +129,10 @@ class Lot:
 
 
     def __str__(self):
+        # details = f"{self.number}: {self.description} (Reserve: {self.reserve_value}, Duration: {self.auction_duration} days)"
         details = f"{self.number}: {self.description} (Reserve: {self.reserve_value}, Duration: {self.auction_duration} days)"
         if self.highest_bid:
-            details += f", Bid: {self.highest_bid.get_value()}"
+            details += f", Bid Value: {self.highest_bid.get_value()}, Bidder: {self.highest_bid.get_bidder()}"
         else:
             details += ", (No bid)"
         return details
@@ -162,7 +169,7 @@ class Bid:
         self.bidder = bidder  # The person making the bid.
         self.value = value  # The value of the bid.
 
-    def get_bidder(self):
+    def get_bidder(self):   #name
         return self.bidder
 
     def get_value(self):
